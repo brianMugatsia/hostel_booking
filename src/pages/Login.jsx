@@ -1,30 +1,43 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    try {
+      const response = await fetch("http://localhost:8082/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (
-      storedUser &&
-      storedUser.email === email &&
-      storedUser.password === password
-    ) {
+      // Parse JSON from response
+      const text = await response.text();
+
+      // If response not ok, throw error
+      if (!response.ok) {
+        throw new Error(text.message || "Invalid email or password");
+      }
+
+      // Save user info in localStorage (do NOT store password in production)
+      localStorage.setItem("currentUser", JSON.stringify(text));
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("currentUser", JSON.stringify(storedUser));
 
       // Redirect based on role
-      if (storedUser.role === "OWNER") {
-        window.location.href = "/dashboard";
+      if (text.role === "LANDLORD") {
+        navigate("/dashboard");
       } else {
-        window.location.href = "/hostels";
+        navigate("/hostels");
       }
-    } else {
-      alert("Invalid credentials");
+    } catch (error) {
+      alert(error.message);
     }
   };
 
@@ -35,9 +48,10 @@ function Login() {
       <form onSubmit={handleLogin}>
         <input
           className="form-control mb-2"
+          type="email"
           placeholder="Email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
@@ -46,11 +60,11 @@ function Login() {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
 
-        <button className="btn btn-success w-100">
+        <button type="submit" className="btn btn-success w-100">
           Login
         </button>
       </form>

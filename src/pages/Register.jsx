@@ -1,20 +1,43 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
-  const handleRegister = (e) => {
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
     e.preventDefault();
+
     const form = e.target;
 
     const user = {
       email: form.email.value,
       password: form.password.value,
-      role: form.role.value, // STUDENT or OWNER
+      role: form.role.value,
     };
 
-    localStorage.setItem("user", JSON.stringify(user));
-    alert("Registered successfully!");
+    try {
+      const response = await fetch("http://localhost:8082/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
 
-    window.location.href = "/login";
+      
+      const text = await response.text();
+
+      // If registration failed, throw error
+      if (!response.ok) {
+        throw new Error(text.message || "Registration failed");
+      }
+
+      // Success
+      alert("Registered successfully!");
+      navigate("/login");
+
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -25,6 +48,7 @@ function Register() {
         <input
           className="form-control mb-2"
           name="email"
+          type="email"
           placeholder="Email"
           required
         />
@@ -37,15 +61,16 @@ function Register() {
           required
         />
 
-        {/* ROLE SELECTION */}
         <select className="form-control mb-3" name="role" required>
           <option value="">Select Role</option>
           <option value="STUDENT">Student</option>
-          <option value="OWNER">Hostel Owner</option>
+          <option value="LANDLORD">Hostel Owner</option>
+          <option value="ADMIN">Admin</option>
         </select>
 
-       
-        <Link to="/login" className="btn btn-success w-100">Register</Link>
+        <button type="submit" className="btn btn-success w-100">
+          Register
+        </button>
       </form>
     </div>
   );
