@@ -7,66 +7,82 @@ function Booking() {
     fullName: "",
     regNumber: "",
     phoneNumber: "",
-    userId: 1 // for testing, can be dynamic if you have login
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleBooking = async (e) => {
+  const handleBooking = (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:8082/api/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
 
-      if (response.ok) {
-        alert("Booking submitted!");
-        navigate("/payment");
-      } else {
-        alert("Failed to submit booking");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Error submitting booking");
+    if (!formData.fullName || !formData.regNumber || !formData.phoneNumber) {
+      alert("Please fill in all fields");
+      return;
     }
+
+    navigate("/payment", { state: formData });
   };
 
   return (
-    <div className="container mt-4">
-      <h3>Book Hostel</h3>
-      <form className="col-md-6" onSubmit={handleBooking}>
-        <input
-          name="fullName"
-          className="form-control mb-2"
-          placeholder="Full Name"
-          value={formData.fullName}
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="regNumber"
-          className="form-control mb-2"
-          placeholder="Registration Number"
-          value={formData.regNumber}
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="phoneNumber"
-          className="form-control mb-2"
-          placeholder="Phone Number"
-          value={formData.phoneNumber}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit" className="btn btn-success">
-          Submit Booking
-        </button>
-      </form>
+    <div className="container min-vh-100 d-flex align-items-center justify-content-center px-3">
+      <div
+        className="card shadow w-100 booking-card"
+        style={{ maxWidth: "420px" }}
+      >
+        <div className="card-header bg-success text-white text-center">
+          <h5 className="mb-0">Book a Hostel</h5>
+          <small className="opacity-75">
+            Enter your details to continue
+          </small>
+        </div>
+
+        <div className="card-body">
+          <form onSubmit={handleBooking}>
+            <div className="mb-3">
+              <label className="form-label">Full Name</label>
+              <input
+                name="fullName"
+                className="form-control form-control-lg"
+                placeholder="John Doe"
+                value={formData.fullName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Registration Number</label>
+              <input
+                name="regNumber"
+                className="form-control form-control-lg"
+                placeholder="SIT/1234/24"
+                value={formData.regNumber}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="form-label">Phone Number</label>
+              <input
+                name="phoneNumber"
+                type="tel"
+                inputMode="numeric"
+                className="form-control form-control-lg"
+                placeholder="07XXXXXXXX"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <button type="submit" className="btn btn-success btn-lg w-100">
+              Continue to Payment →
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

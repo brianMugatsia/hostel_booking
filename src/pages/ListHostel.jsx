@@ -2,16 +2,44 @@ import { useState } from "react";
 
 function ListHostel() {
   const [preview, setPreview] = useState([]);
+  const [rooms, setRooms] = useState([]);
 
+  // Handle image upload (max 5)
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
 
-    const previews = files.map(file => ({
+    if (files.length > 5) {
+      alert("You can upload a maximum of 5 photos per semester");
+      return;
+    }
+
+    const previews = files.map((file) => ({
       url: URL.createObjectURL(file),
-      type: file.type
+      type: file.type,
     }));
 
     setPreview(previews);
+  };
+
+  // Generate rooms when total rooms is entered
+  const handleRoomGeneration = (e) => {
+    const total = Number(e.target.value);
+
+    if (total <= 0) return;
+
+    const generatedRooms = Array.from({ length: total }, (_, i) => ({
+      roomNumber: i + 1,
+      available: true, // default all rooms available
+    }));
+
+    setRooms(generatedRooms);
+  };
+
+  // Toggle room availability
+  const toggleRoom = (index) => {
+    const updatedRooms = [...rooms];
+    updatedRooms[index].available = !updatedRooms[index].available;
+    setRooms(updatedRooms);
   };
 
   const handleSubmit = (e) => {
@@ -24,62 +52,138 @@ function ListHostel() {
       location: form.location.value,
       price: form.price.value,
       description: form.description.value,
-      media: preview
+      media: preview,
+      rooms: rooms,
     };
 
     const stored =
       JSON.parse(localStorage.getItem("uploadedHostels")) || [];
 
     stored.push(newHostel);
-
     localStorage.setItem("uploadedHostels", JSON.stringify(stored));
 
     alert("Hostel listed successfully!");
 
     form.reset();
     setPreview([]);
+    setRooms([]);
   };
 
   return (
-    <div className="container mt-4">
-      <h2>List Your Hostel</h2>
-
-      <form onSubmit={handleSubmit}>
-        <input className="form-control mb-2" name="name" placeholder="Hostel Name" required />
-        <input className="form-control mb-2" name="location" placeholder="Location" required />
-        <input className="form-control mb-2" name="price" type="number" placeholder="Price (Ksh)" required />
-
-        <textarea
-          className="form-control mb-2"
-          name="description"
-          placeholder="Description"
-          required
-        />
-
-        <input
-          type="file"
-          className="form-control mb-3"
-          multiple
-          accept="image/*,video/*"
-          onChange={handleFileChange}
-        />
-
-        <div className="row mb-3">
-          {preview.map((item, i) => (
-            <div className="col-md-3" key={i}>
-              {item.type.startsWith("image") ? (
-                <img src={item.url} className="img-fluid rounded" />
-              ) : (
-                <video src={item.url} className="img-fluid rounded" controls />
-              )}
-            </div>
-          ))}
+    <div className="container my-4">
+      <div className="card shadow">
+        <div className="card-header bg-success text-white">
+          <h4 className="mb-0">List Your Hostel</h4>
         </div>
 
-        <button className="btn btn-success btn-lg">
-          Submit Hostel
-        </button>
-      </form>
+        <div className="card-body">
+          <form onSubmit={handleSubmit}>
+            <input
+              className="form-control mb-3"
+              name="name"
+              placeholder="Hostel Name"
+              required
+            />
+
+            <input
+              className="form-control mb-3"
+              name="location"
+              placeholder="Location"
+              required
+            />
+
+            <input
+              className="form-control mb-3"
+              name="price"
+              type="number"
+              placeholder="Price per room (Ksh)"
+              required
+            />
+
+            <textarea
+              className="form-control mb-3"
+              name="description"
+              placeholder="Hostel description"
+              required
+            />
+
+            {/* Total rooms */}
+            <input
+              type="number"
+              className="form-control mb-3"
+              placeholder="Total number of rooms"
+              onChange={handleRoomGeneration}
+              required
+            />
+
+            {/* Room availability */}
+            {rooms.length > 0 && (
+              <>
+                <h6 className="mt-3">Room Availability</h6>
+                <div className="row">
+                  {rooms.map((room, index) => (
+                    <div className="col-6 col-md-3 mb-2" key={room.roomNumber}>
+                      <div className="form-check border rounded p-2">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          checked={room.available}
+                          onChange={() => toggleRoom(index)}
+                          id={`room-${room.roomNumber}`}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor={`room-${room.roomNumber}`}
+                        >
+                          Room {room.roomNumber}{" "}
+                          <span
+                            className={
+                              room.available
+                                ? "text-success"
+                                : "text-danger"
+                            }
+                          >
+                            {room.available ? "(Available)" : "(Booked)"}
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* Media upload */}
+            <label className="form-label mt-3">
+              Upload Hostel Photos (Max 5)
+            </label>
+            <input
+              type="file"
+              className="form-control mb-3"
+              multiple
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+
+            {/* Preview */}
+            <div className="row mb-3">
+              {preview.map((item, i) => (
+                <div className="col-4 col-md-3" key={i}>
+                  <img
+                    src={item.url}
+                    className="img-fluid rounded"
+                    alt="preview"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <button className="btn btn-success btn-lg w-100">
+              Submit Hostel
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import defaultHostels from "../data/hostels";
-import "./HostelDetails.css"; // create this for professional styling
+import "./HostelDetails.css"
+
 
 function HostelDetails() {
   const { id } = useParams();

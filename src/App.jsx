@@ -10,7 +10,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute"; 
 import Payment from "./pages/Payment";
-
+import Confirmation from "./pages/Confirmation";
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +24,8 @@ function App() {
         <Route path="/register" element={<Register/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/payment" element={<Payment/>}/>
+        <Route path="/confirmation" element={<Confirmation />} />
+
         
       </Routes>
       <Footer/>
