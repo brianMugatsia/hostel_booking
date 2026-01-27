@@ -1,73 +1,108 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:8082/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+    // Get users from localStorage
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
 
-      // Parse JSON from response
-      const text = await response.text();
+    const user = users.find(
+      (u) => u.email === email && u.password === password
+    );
 
-      // If response not ok, throw error
-      if (!response.ok) {
-        throw new Error(text.message || "Invalid email or password");
-      }
+    if (!user) {
+      alert("Invalid email or password!");
+      return;
+    }
 
-      // Save user info in localStorage (do NOT store password in production)
-      localStorage.setItem("currentUser", JSON.stringify(text));
-      localStorage.setItem("isLoggedIn", "true");
+    // Save logged-in user
+    localStorage.setItem("currentUser", JSON.stringify(user));
+    localStorage.setItem("isLoggedIn", "true");
 
-      // Redirect based on role
-      if (text.role === "LANDLORD") {
-        navigate("/dashboard");
-      } else {
-        navigate("/hostels");
-      }
-    } catch (error) {
-      alert(error.message);
+    if (rememberMe) {
+      localStorage.setItem("rememberMe", "true");
+    } else {
+      localStorage.removeItem("rememberMe");
+    }
+
+    // Redirect based on role
+    if (user.role === "OWNER") {
+      navigate("/dashboard");
+    } else if (user.role === "ADMIN") {
+      navigate("/admin"); // optional admin page
+    } else {
+      navigate("/hostels");
     }
   };
 
   return (
-    <div className="container mt-5 col-md-4">
-      <h3 className="text-center">Login</h3>
+    <div className="login-container d-flex justify-content-center align-items-center py-5">
+      <div className="login-card p-4 shadow-sm">
+        <h3 className="text-center mb-4">Login</h3>
 
-      <form onSubmit={handleLogin}>
-        <input
-          className="form-control mb-2"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <input
+              className="form-control"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <input
-          className="form-control mb-3"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <div className="mb-3">
+            <input
+              className="form-control"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        <button type="submit" className="btn btn-success w-100">
-          Login
-        </button>
-      </form>
+          <div className="form-check mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="rememberMe"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              <label className="form-check-label ms-2" htmlFor="rememberMe">
+                Remember Me
+              </label>
+            </div>
+
+            <Link to="/forgot-password" className="text-success small">
+              Forgot Password?
+            </Link>
+          </div>
+
+          <button type="submit" className="btn btn-success w-100">
+            Login
+          </button>
+        </form>
+
+        {/* Register link */}
+        <p className="text-center mt-3 mb-0">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-success fw-semibold">
+            Register
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

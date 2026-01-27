@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import "./Register.css";
 
 function Register() {
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
-
     const form = e.target;
 
     const user = {
@@ -14,64 +14,63 @@ function Register() {
       role: form.role.value,
     };
 
-    try {
-      const response = await fetch("http://localhost:8082/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+    // Get existing users from localStorage
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
 
-      
-      const text = await response.text();
-
-      // If registration failed, throw error
-      if (!response.ok) {
-        throw new Error(text.message || "Registration failed");
-      }
-
-      // Success
-      alert("Registered successfully!");
-      navigate("/login");
-
-    } catch (error) {
-      alert(error.message);
+    // Check if email already exists
+    if (users.find((u) => u.email === user.email)) {
+      alert("Email already registered!");
+      return;
     }
+
+    // Save new user
+    users.push(user);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Registered successfully!");
+    navigate("/login");
   };
 
   return (
-    <div className="container mt-5 col-md-4">
-      <h3 className="text-center">Register</h3>
+    <div className="register-container d-flex justify-content-center align-items-center py-5">
+      <div className="register-card p-4 shadow-sm">
+        <h3 className="text-center mb-4">Create Your Account</h3>
 
-      <form onSubmit={handleRegister}>
-        <input
-          className="form-control mb-2"
-          name="email"
-          type="email"
-          placeholder="Email"
-          required
-        />
+        <form onSubmit={handleRegister}>
+          <div className="mb-3">
+            <input
+              className="form-control"
+              name="email"
+              type="email"
+              placeholder="Email"
+              required
+            />
+          </div>
 
-        <input
-          className="form-control mb-2"
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
+          <div className="mb-3">
+            <input
+              className="form-control"
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+          </div>
 
-        <select className="form-control mb-3" name="role" required>
-          <option value="">Select Role</option>
-          <option value="STUDENT">Student</option>
-          <option value="LANDLORD">Hostel Owner</option>
-          <option value="ADMIN">Admin</option>
-        </select>
+          <div className="mb-3">
+            <select className="form-control" name="role" required>
+              <option value="">Select Role</option>
+              <option value="STUDENT">Student</option>
+              <option value="OWNER">Hostel Owner</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+          </div>
 
-        <button type="submit" className="btn btn-success w-100">
-          Register
-        </button>
-      </form>
+          <button type="submit" className="btn btn-success w-100">
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

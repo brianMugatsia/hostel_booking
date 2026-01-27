@@ -1,0 +1,26 @@
+/* Make carousel full viewport height */
+.carousel-img {
+  height: 80vh; /* adjust as needed */
+  object-fit: cover;
+}
+
+/* Hero overlay positioning */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.4); /* dark overlay for readability */
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.shadow-text {
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}

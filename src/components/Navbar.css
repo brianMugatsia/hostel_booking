@@ -1,0 +1,37 @@
+/* Navbar always solid green */
+.navbar {
+  background-color: #198754;
+}
+
+/* Hover dropdown (desktop only) */
+@media (min-width: 992px) {
+  .dropdown-hover:hover > .dropdown-menu {
+    display: block;
+  }
+}
+
+/* Single-column mega menu */
+.mega-menu {
+  width: 300px; /* adjust width as needed */
+  padding: 0.5rem;
+}
+
+/* Mobile fallback */
+@media (max-width: 991px) {
+  .mega-menu {
+    width: 100%;
+  }
+}
+
+/* Automatic offset for fixed-top navbar */
+body::before {
+  content: "";
+  display: block;
+  height: 50px; /* adjust to match navbar height */
+}
+
+@media (max-width: 991px) {
+  body::before {
+    height: 80px; /* mobile offset if navbar taller */
+  }
+}

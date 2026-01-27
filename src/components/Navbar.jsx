@@ -1,8 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
+import {
+  BedDouble,
+  Bus,
+  UtensilsCrossed,
+  CreditCard,
+  Users,
+  HelpCircle,
+} from "lucide-react";
+import "./Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
-
   const user = JSON.parse(localStorage.getItem("currentUser"));
 
   const handleLogout = () => {
@@ -12,63 +20,140 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-success">
+    <nav className="navbar navbar-expand-lg bg-danger navbar-dark fixed-top shadow-sm">
       <div className="container">
-        <Link className="navbar-brand" to="/">
+        {/* Brand */}
+        <Link className="navbar-brand fw-semibold" to="/">
           Maseno Hostel Booking
         </Link>
 
-        <ul className="navbar-nav ms-auto">
-          {/* Student & Guest */}
-          <li className="nav-item">
-            <Link className="nav-link" to="/hostels">
-              Hostels
-            </Link>
-          </li>
+        {/* Hamburger (mobile) */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNavbar"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-          {/* OWNER LINKS */}
-          {user && user.role === "OWNER" && (
-            <>
-              <li className="nav-item">
-                <Link className="nav-link" to="/dashboard">
-                  Dashboard
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link className="nav-link" to="/list-hostel">
-                  List Hostel
-                </Link>
-              </li>
-            </>
-          )}
-
-          {/* AUTH LINKS */}
-          {!user ? (
-            <>
-              <li className="nav-item text-muted">
-                <Link className="nav-link" to="/login">
-                  Login
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link className="nav-link" to="/register">
-                  Register
-                </Link>
-              </li>
-            </>
-          ) : (
+        {/* Navbar content */}
+        <div className="collapse navbar-collapse" id="mainNavbar">
+          <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+            {/* Home */}
             <li className="nav-item">
-              <button
-                onClick={handleLogout}
-                className="btn btn-outline-light ms-3"
-              >
-                Logout
-              </button>
+              <Link className="nav-link text-white" to="/">
+                Home
+              </Link>
             </li>
-          )}
-        </ul>
+
+            {/* Hostels */}
+            <li className="nav-item">
+              <Link className="nav-link d-flex align-items-center text-white gap-1" to="/hostels">
+                <BedDouble size={18} />
+                Hostels
+              </Link>
+            </li>
+
+            {/* OWNER */}
+            {user?.role === "OWNER" && (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard">
+                    Dashboard
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/list-hostel">
+                    List Hostel
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {/* SINGLE-COLUMN DROPDOWN */}
+            <li className="nav-item dropdown dropdown-hover">
+              <button
+                className="nav-link dropdown-toggle btn btn-link text-white"
+                data-bs-toggle="dropdown"
+              >
+                Services
+              </button>
+
+              <div className="dropdown-menu dropdown-menu-end mega-menu shadow-sm p-2">
+                <h6 className="dropdown-header">Platform Services</h6>
+                <Link className="dropdown-item d-flex gap-2" to="/travel">
+                  <Bus size={16} /> Travel
+                </Link>
+                <Link className="dropdown-item d-flex gap-2" to="/food">
+                  <UtensilsCrossed size={16} /> Food Ordering
+                </Link>
+                <Link className="dropdown-item d-flex gap-2" to="/payments">
+                  <CreditCard size={16} /> Payments
+                </Link>
+
+                <hr className="dropdown-divider" />
+
+                <h6 className="dropdown-header">Student Services</h6>
+                <a
+                  className="dropdown-item"
+                  href="https://student.maseno.ac.ke"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Maseno Student Portal
+                </a>
+                <a
+                  className="dropdown-item"
+                  href="https://elearning.maseno.ac.ke"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  E-Learning
+                </a>
+                <a
+                  className="dropdown-item"
+                  href="https://www.helb.co.ke"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  HELB
+                </a>
+                <Link className="dropdown-item d-flex gap-2" to="/community">
+                  <Users size={16} /> Student Community
+                </Link>
+                <Link className="dropdown-item d-flex gap-2" to="/support">
+                  <HelpCircle size={16} /> Help & Support
+                </Link>
+              </div>
+            </li>
+
+            {/* AUTH */}
+            {!user ? (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link text-white" to="/login">
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link text-white" to="/register">
+                    Register
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item ms-lg-2">
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-outline-light btn-sm"
+                >
+                  Logout
+                </button>
+              </li>
+            )}
+          </ul>
+        </div>
       </div>
     </nav>
   );

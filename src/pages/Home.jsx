@@ -1,15 +1,41 @@
 import { Link } from "react-router-dom";
+import hostel1 from "../assets/hostel1.png";
+import hostel2 from "../assets/hostel2.png";
+import hostel3 from "../assets/hostel3.png";
+import "./Home.css";
 
 function Home() {
   return (
     <>
-      {/* Hero Section */}
-      <div className="bg-info text-white text-center py-5">
-        <div className="container">
-          <h1 className="display-5 fw-bold">
+      {/* Carousel with Hero Overlay */}
+      <div id="hostelCarousel" className="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div className="carousel-inner">
+          <div className="carousel-item active">
+            <img src={hostel1} className="d-block w-100 carousel-img" alt="Hostel 1" />
+          </div>
+          <div className="carousel-item">
+            <img src={hostel2} className="d-block w-100 carousel-img" alt="Hostel 2" />
+          </div>
+          <div className="carousel-item">
+            <img src={hostel3} className="d-block w-100 carousel-img" alt="Hostel 3" />
+          </div>
+        </div>
+
+        <button className="carousel-control-prev" type="button" data-bs-target="#hostelCarousel" data-bs-slide="prev">
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button className="carousel-control-next" type="button" data-bs-target="#hostelCarousel" data-bs-slide="next">
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </button>
+
+        {/* Hero Overlay */}
+        <div className="carousel-caption hero-overlay d-flex flex-column justify-content-center align-items-center text-center">
+          <h1 className="display-5 fw-bold text-white shadow-text">
             Find Hostels Near Maseno University
           </h1>
-          <p className="lead mt-3">
+          <p className="lead mt-3 text-white shadow-text">
             Safe, affordable and verified hostels around Maseno & Siriba
           </p>
           <Link to="/hostels" className="btn btn-light btn-lg mt-3">

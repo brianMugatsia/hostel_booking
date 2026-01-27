@@ -1,0 +1,21 @@
+.footer-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: #0d6efd; /* Bootstrap primary blue on hover */
+}
+
+footer h5, footer h6 {
+  font-weight: 600;
+}
+
+footer ul li {
+  margin-bottom: 0.5rem;
+}
+
+footer .fw-bold {
+  font-weight: 700;
+}

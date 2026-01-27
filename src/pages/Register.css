@@ -1,0 +1,43 @@
+.register-container {
+  min-height: 80vh; /* Center vertically */
+  background: #f8f9fa; /* Light background for contrast */
+}
+
+.register-card {
+  width: 100%;
+  max-width: 400px; /* Card width */
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.register-card h3 {
+  font-weight: 600;
+  color: #198754; /* Bootstrap success color */
+}
+
+.register-card .form-control {
+  border-radius: 8px;
+  padding: 10px 12px;
+  border: 1px solid #ced4da; /* Default gray border */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Green border on focus */
+.register-card .form-control:focus {
+  border-color: #198754; /* Bootstrap green */
+  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25); /* subtle green glow */
+  outline: none; /* Remove default blue outline */
+}
+
+.register-card .btn-success {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 10px 0;
+  transition: transform 0.2s;
+}
+
+.register-card .btn-success:hover {
+  transform: translateY(-2px);
+}
