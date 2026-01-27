@@ -1,16 +1,74 @@
-# React + Vite
+🏠 Hostel Booking Platform – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive frontend web application for a hostel booking platform designed to help students easily discover, compare, and book hostels near universities.
+This frontend consumes REST APIs from the backend services and provides a smooth, user-friendly experience across devices.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🚀 Features
 
-## React Compiler
+🔍 Browse and search available hostels
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🏢 View detailed hostel information (rooms, pricing, amenities)
 
-## Expanding the ESLint configuration
+📅 Book hostel rooms online
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+👤 User authentication (login & registration)
+
+📖 View booking history
+
+🧭 Student services quick access
+
+Maseno Student Portal
+
+E-Learning
+
+HELB services
+
+🍽️ Food ordering links (optional / expandable)
+
+📱 Fully responsive design (mobile & desktop)
+
+🔐 Secure routing and protected pages
+
+
+🛠️ Tech Stack
+
+Frontend Framework: React.js
+
+Routing: React Router
+
+State Management: React Hooks
+
+Styling: CSS / Bootstrap (update if needed)
+
+API Communication: Axios / Fetch API
+
+Authentication: JWT-based (via backend)
+
+Build Tool: Vite / CRA (update if needed)
+
+
+
+📂 Project Structure
+
+src/
+│── components/      # Reusable UI components
+│── pages/           # Application pages
+│── services/        # API service calls
+│── context/         # Auth & global state
+│── routes/          # Protected & public routes
+│── assets/          # Images & static files
+│── App.jsx
+│── main.jsx
+
+Clone the repository
+git clone https://github.com/your-username/hostel-frontend.git
+cd hostel-frontend
+npm install
+npm run dev
+http://localhost:5173
+
+
+
+
+
