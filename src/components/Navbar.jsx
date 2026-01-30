@@ -59,12 +59,12 @@ function Navbar() {
             {user?.role === "OWNER" && (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard">
+                  <Link className="nav-link text-white" to="/dashboard">
                     Dashboard
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/list-hostel">
+                  <Link className="nav-link text-white" to="/list-hostel">
                     List Hostel
                   </Link>
                 </li>

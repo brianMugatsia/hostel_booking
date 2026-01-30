@@ -1,8 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ListHostel() {
   const [preview, setPreview] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const navigate = useNavigate();
+
+  // Get logged-in user
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   // Handle image upload (max 5)
   const handleFileChange = (e) => {
@@ -21,15 +26,14 @@ function ListHostel() {
     setPreview(previews);
   };
 
-  // Generate rooms when total rooms is entered
+  // Generate rooms
   const handleRoomGeneration = (e) => {
     const total = Number(e.target.value);
-
     if (total <= 0) return;
 
     const generatedRooms = Array.from({ length: total }, (_, i) => ({
       roomNumber: i + 1,
-      available: true, // default all rooms available
+      available: true,
     }));
 
     setRooms(generatedRooms);
@@ -42,6 +46,7 @@ function ListHostel() {
     setRooms(updatedRooms);
   };
 
+  // Submit hostel
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -50,10 +55,16 @@ function ListHostel() {
       id: Date.now(),
       name: form.name.value,
       location: form.location.value,
-      price: form.price.value,
+      price: Number(form.price.value),
       description: form.description.value,
       media: preview,
       rooms: rooms,
+
+      // ✅ OWNER INFO (VERY IMPORTANT)
+      ownerEmail: currentUser.email,
+      ownerRole: currentUser.role,
+
+      createdAt: new Date().toISOString(),
     };
 
     const stored =
@@ -64,15 +75,14 @@ function ListHostel() {
 
     alert("Hostel listed successfully!");
 
-    form.reset();
-    setPreview([]);
-    setRooms([]);
+    // ✅ Redirect to dashboard
+    navigate("/dashboard");
   };
 
   return (
     <div className="container my-4">
-      <div className="card shadow">
-        <div className="card-header bg-success text-white">
+      <div className="card shadow border-0">
+        <div className="card-header bg-success text-white text-center">
           <h4 className="mb-0">List Your Hostel</h4>
         </div>
 
@@ -104,6 +114,7 @@ function ListHostel() {
               className="form-control mb-3"
               name="description"
               placeholder="Hostel description"
+              rows="3"
               required
             />
 
@@ -171,7 +182,7 @@ function ListHostel() {
                 <div className="col-4 col-md-3" key={i}>
                   <img
                     src={item.url}
-                    className="img-fluid rounded"
+                    className="img-fluid rounded shadow-sm"
                     alt="preview"
                   />
                 </div>
