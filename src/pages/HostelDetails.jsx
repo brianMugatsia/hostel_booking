@@ -1,10 +1,11 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import defaultHostels from "../data/hostels";
-import "./HostelDetails.css"
-
+import "./HostelDetails.css";
 
 function HostelDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const uploaded = JSON.parse(localStorage.getItem("uploadedHostels")) || [];
   const allHostels = [...uploaded, ...defaultHostels];
   const hostel = allHostels.find((h) => h.id === parseInt(id));
@@ -34,6 +35,18 @@ function HostelDetails() {
     statusText = "Booked";
     statusClass = "badge bg-warning text-dark";
   }
+
+  // Handle Book Now click
+  const handleBookNow = () => {
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    if (user) {
+      //  User logged in → proceed to booking
+      navigate(`/booking/${hostel.id}`);
+    } else {
+      //  Not logged in → redirect to login/register
+      navigate("/login");
+    }
+  };
 
   return (
     <div className="container mt-5">
@@ -87,12 +100,12 @@ function HostelDetails() {
             </p>
 
             {/* Book Button */}
-            <Link
-              to={`/booking/${hostel.id}`}
+            <button
+              onClick={handleBookNow}
               className="btn btn-success btn-lg mt-2"
             >
               Book Now
-            </Link>
+            </button>
           </div>
         </div>
       </div>

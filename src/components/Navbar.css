@@ -1,9 +1,24 @@
-/* Navbar always solid green */
+/* Navbar - solid green and professional */
 .navbar {
-  background-color: #198754;
+  background-color: #198754; /* main brand color */
+  border-bottom: 2px solid #145c3c; /* subtle darker border for depth */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Hover dropdown (desktop only) */
+/* Navbar links */
+.navbar .nav-link {
+  color: #ffffff;
+  font-weight: 500;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: #c8f7dc; /* lighter green on hover */
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+}
+
+/* Dropdown hover effect (desktop only) */
 @media (min-width: 992px) {
   .dropdown-hover:hover > .dropdown-menu {
     display: block;
@@ -12,26 +27,66 @@
 
 /* Single-column mega menu */
 .mega-menu {
-  width: 300px; /* adjust width as needed */
-  padding: 0.5rem;
+  width: 300px; /* adjust width if needed */
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Mobile fallback */
+/* Dropdown items */
+.mega-menu .dropdown-item {
+  color: #198754;
+  font-weight: 500;
+  transition: background 0.3s, color 0.3s;
+}
+
+.mega-menu .dropdown-item:hover {
+  background-color: #198754;
+  color: #ffffff;
+}
+
+/* Submenu for Travel */
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: 0.1rem;
+  border-radius: 6px;
+  display: none; /* hidden by default, shown on hover */
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+  display: block;
+  position: absolute;
+  z-index: 1050;
+}
+
+/* Mobile fallback for submenus */
 @media (max-width: 991px) {
   .mega-menu {
     width: 100%;
   }
+
+  .dropdown-submenu > .dropdown-menu {
+    position: static;
+    margin-left: 0;
+    display: block;
+  }
 }
 
-/* Automatic offset for fixed-top navbar */
+/* Fixed-top navbar offset for content */
 body::before {
   content: "";
   display: block;
-  height: 50px; /* adjust to match navbar height */
+  height: 60px; /* adjust to match desktop navbar height */
 }
 
 @media (max-width: 991px) {
   body::before {
-    height: 80px; /* mobile offset if navbar taller */
+    height: 80px; /* adjust if mobile navbar is taller */
   }
 }

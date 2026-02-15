@@ -1,5 +1,72 @@
-/* Only affects inputs inside Booking card */
+/* Background */
+body {
+  background: white;
+}
+
+/* Smaller Neon Card */
+.booking-card {
+  max-width: 360px;
+  border-radius: 14px;
+  background: #141414;
+  border: 1px solid #00ff88;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+
+/* Header */
+.booking-card .card-header {
+  background: #111;
+  border-bottom: 1px solid #00ff88;
+}
+
+/* Inputs */
+.booking-card .form-control {
+  background: #1c1c1c;
+  border: 1px solid #00ff88;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.booking-card .form-control::placeholder {
+  color: #888;
+}
+
 .booking-card .form-control:focus {
-  border-color: #dc3545; /* Red */
-  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+  background: white;
+  color: black;
+  border-color: #00ff88;
+  box-shadow: 0 0 8px #00ff88;
+}
+
+/* Labels */
+.booking-card .form-label {
+  color: #00ff88;
+  font-size: 0.85rem;
+}
+
+/* Button */
+.booking-card .btn {
+  background: transparent;
+  border: 1px solid #00ff88;
+  color: #00ff88;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: 0.3s ease;
+}
+
+.booking-card .btn:hover {
+  background: #00ff88;
+  color: #000;
+  box-shadow: 0 0 12px #00ff88;
+}
+
+/* Invalid */
+.booking-card .is-invalid {
+  border-color: #ff004f;
+  box-shadow: 0 0 6px #ff004f;
+}
+
+.booking-card .invalid-feedback {
+  color: #ff004f;
+  font-size: 0.75rem;
 }

@@ -1,43 +1,101 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+
 .register-container {
-  min-height: 80vh; /* Center vertically */
-  background: #f8f9fa; /* Light background for contrast */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .register-card {
-  width: 100%;
-  max-width: 400px; /* Card width */
-  background-color: #ffffff;
-  border-radius: 12px;
-  border: 1px solid #dee2e6;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 420px;
+  padding: 30px;
+  background: #111;
+  border-radius: 14px;
+  box-shadow: 0 0 25px rgba(0, 247, 255, 0.2);
+  color: white;
 }
 
 .register-card h3 {
+  text-align: center;
+  margin-bottom: 20px;
   font-weight: 600;
-  color: #198754; /* Bootstrap success color */
+  color: #00f7ff;
+  text-shadow: 0 0 10px #00f7ff;
 }
 
-.register-card .form-control {
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px;
   border-radius: 8px;
-  padding: 10px 12px;
-  border: 1px solid #ced4da; /* Default gray border */
-  transition: border-color 0.2s, box-shadow 0.2s;
+  border: 1px solid #555;
+  background: #2c2c2c;
+  color: #f1f1f1;
+  outline: none;
+  transition: 0.3s;
 }
 
-/* Green border on focus */
-.register-card .form-control:focus {
-  border-color: #198754; /* Bootstrap green */
-  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25); /* subtle green glow */
-  outline: none; /* Remove default blue outline */
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #00f7ff;
+  box-shadow: 0 0 8px #00f7ff;
 }
 
-.register-card .btn-success {
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+}
+
+.password-wrapper span {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #00f7ff;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 12px;
   border-radius: 8px;
-  font-weight: 500;
-  padding: 10px 0;
-  transition: transform 0.2s;
+  border: none;
+  background: #00f7ff;
+  color: black;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 12px #00f7ff;
 }
 
-.register-card .btn-success:hover {
+.register-btn:hover {
+  background: #00c3cc;
+  box-shadow: 0 0 20px #00f7ff;
   transform: translateY(-2px);
+}
+
+.error-box {
+  background: #330000;
+  color: #ff4d4d;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
 }

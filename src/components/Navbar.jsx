@@ -82,10 +82,30 @@ function Navbar() {
 
               <div className="dropdown-menu dropdown-menu-end mega-menu shadow-sm p-2">
                 <h6 className="dropdown-header">Platform Services</h6>
-                <Link className="dropdown-item d-flex gap-2" to="/travel">
-                  <Bus size={16} /> Travel
-                </Link>
-                <Link className="dropdown-item d-flex gap-2" to="/food">
+                
+
+                <li className="dropdown ">
+                  <a
+                    className="dropdown-item dropdown-toggle d-flex gap-2"
+                    data-bs-toggle="dropdown"
+                    >Travel</a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item text-danger" href="https://easycoachkenya.com/" target="_self" rel="noreferrer">
+                        Easy Coach <Bus  size={16} />
+                      </a>
+                      <a className="dropdown-item text-primary" href="https://theguardian.co.ke/" target="_blank" rel="noreferrer">
+                        Guardian Angel <Bus size={16} />
+                      </a>
+                      <a className="dropdown-item text-warning" href="https://www.enacoach.co.ke/" target="_blank" rel="noreferrer">
+                        Ena Coach <Bus size={16} />
+                      </a>
+                    </li>
+                  </ul>  
+
+
+                </li>
+                <Link className="dropdown-item d-flex gap-2" to="https://www.munchify.co.ke/" target="_blank">
                   <UtensilsCrossed size={16} /> Food Ordering
                 </Link>
                 <Link className="dropdown-item d-flex gap-2" to="/payments">

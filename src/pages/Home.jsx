@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import hostel1 from "../assets/hostel1.png";
 import hostel2 from "../assets/hostel2.png";
 import hostel3 from "../assets/hostel3.png";
+import duka1 from "../assets/duka1.jpeg";
 import "./Home.css";
 
 function Home() {
@@ -44,6 +45,47 @@ function Home() {
         </div>
       </div>
 
+      {/*filtering section by loction price and amenities*/}
+      <div className="container mt-5">
+        <h2 className="text-center text-success fw-bold fs-2 mb-4">Search Hostels</h2>
+        <p className="text-center text-success  fs-3 mb-4">
+          Use the filters below to find hostels that match your preferences.
+        </p>
+        <form className="row g-3 justify-content-center">
+          <div className="col-md-3">
+            <select className="form-select">
+              <option value="">Location</option>
+              <option value="maseno">Maseno</option>
+              <option value="siriba">Siriba</option>
+              <option value="kisumu">Kisumu</option>
+            </select>
+          </div>
+          <div className="col-md-3">
+            <select className="form-select">
+              <option value="">Price Range</option>
+              <option value="0-5000">0 - 5,000 KES</option>
+              <option value="5001-10000">5,001 - 10,000 KES</option>
+              <option value="10001-15000">10,001 - 15,000 KES</option>
+              <option value="15001+">15,001+ KES</option>
+            </select>
+          </div>
+          <div className="col-md-3">
+            <select className="form-select">
+              <option value="">Amenities</option>
+              <option value="wifi">Wi-Fi</option>
+              <option value="water">Water</option>
+              <option value="electricity">Electricity</option>
+              <option value="security">Security</option>
+            </select>
+          </div>
+          <div className="col-md-2 d-grid">
+            <button type="submit" className="btn btn-outline-success">
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+
       {/* Features Section */}
       <div className="container mt-5">
         <div className="row text-center">
@@ -82,6 +124,44 @@ function Home() {
         </div>
       </div>
 
+      {/*to randomly show some hostels card pictures $ description and some of services we ofer under featured hostels*/}
+      <div className="container my-5">
+        <h2 className="text-center text-success fw-bold fs-2 mb-4">Featured Hostels</h2>
+        <div className="row">
+          {/* Hostel Card 1 */}
+          <div className="col-md-4 mb-4">
+            <div className="card h-100 shadow-sm">
+              <img src={duka1} className="card-img-top" alt="Hostel 1" />
+              <div className="card-body">
+                <h5 className="card-title">Sunrise Hostel</h5>
+                <p className="card-text">Affordable rooms with free Wi-Fi and 24/7 security.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Hostel Card 2 */}
+          <div className="col-md-4 mb-4">
+            <div className="card h-100 shadow-sm">
+              <img src={duka1} class="card-img-top" alt="Hostel 2" />
+              <div className="card-body">
+                <h5 className="card-title">Greenfield Hostel</h5>
+                <p className="card-text">Comfortable rooms with reliable water and electricity.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Hostel Card 3 */}
+          <div className="col-md-4 mb-4">
+            <div className="card h-100 shadow-sm">
+              <img src={duka1} className="card-img-top" alt="Hostel 3" />
+              <div className="card-body">
+                <h5 className="card-title">Lakeview Hostel</h5>
+                <p className="card-text">Scenic views with affordable pricing and great amenities.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Call To Action */}
       <div className="container text-center my-5">
         <h3>Are you a Hostel Owner?</h3>

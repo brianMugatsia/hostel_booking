@@ -3,105 +3,135 @@ import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
+
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setError("");
 
-    // Get users from localStorage
     const users = JSON.parse(localStorage.getItem("users") || "[]");
 
     const user = users.find(
-      (u) => u.email === email && u.password === password
+      (u) =>
+        u.email === formData.email &&
+        u.password === formData.password
     );
 
     if (!user) {
-      alert("Invalid email or password!");
+      setError("Invalid email or password");
       return;
     }
 
-    // Save logged-in user
     localStorage.setItem("currentUser", JSON.stringify(user));
     localStorage.setItem("isLoggedIn", "true");
 
-    if (rememberMe) {
+    if (formData.rememberMe) {
       localStorage.setItem("rememberMe", "true");
     } else {
       localStorage.removeItem("rememberMe");
     }
 
-    // Redirect based on role
     if (user.role === "OWNER") {
       navigate("/dashboard");
     } else if (user.role === "ADMIN") {
-      navigate("/admin"); // optional admin page
+      navigate("/admin");
     } else {
       navigate("/hostels");
     }
   };
 
   return (
-    <div className="login-container d-flex justify-content-center align-items-center py-5">
-      <div className="login-card p-4 shadow-sm">
-        <h3 className="text-center mb-4">Login</h3>
+    <div className="login-container d-flex justify-content-center align-items-center">
+      <div className="login-card p-4 shadow-lg">
+
+        <h3 className="login-title text-center mb-4">
+          Welcome Back
+        </h3>
+
+        {error && (
+          <div className="alert alert-danger text-center p-2">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleLogin}>
-          <div className="mb-3">
+
+          {/* Email */}
+          <div className="form-group mb-3">
+            <label className="form-label">Email Address</label>
             <input
-              className="form-control"
               type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              className="form-control custom-input"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
               required
             />
           </div>
 
-          <div className="mb-3">
+          {/* Password */}
+          <div className="form-group mb-3">
+            <label className="form-label">Password</label>
             <input
-              className="form-control"
               type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              className="form-control custom-input"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
               required
             />
           </div>
 
+          {/* Remember + Forgot */}
           <div className="form-check mb-3 d-flex justify-content-between align-items-center">
             <div>
               <input
-                className="form-check-input"
                 type="checkbox"
-                id="rememberMe"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
+                name="rememberMe"
+                className="form-check-input"
+                checked={formData.rememberMe}
+                onChange={handleChange}
               />
-              <label className="form-check-label ms-2" htmlFor="rememberMe">
+              <label className="form-check-label ms-2">
                 Remember Me
               </label>
             </div>
 
-            <Link to="/forgot-password" className="text-success small">
+            <Link to="/forgot-password" className="forgot-link">
               Forgot Password?
             </Link>
           </div>
 
-          <button type="submit" className="btn btn-success w-100">
+          <button type="submit" className="btn login-btn btn-secondary w-100">
             Login
           </button>
         </form>
 
-        {/* Register link */}
-        <p className="text-center mt-3 mb-0">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-success fw-semibold">
+        <p className="text-center mt-3">
+          Don’t have an account?{" "}
+          <Link to="/register" className="register-link">
             Register
           </Link>
         </p>
+
       </div>
     </div>
   );

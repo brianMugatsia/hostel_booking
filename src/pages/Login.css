@@ -1,49 +1,88 @@
+body {
+  background: white;
+  font-family: "Poppins", sans-serif;
+}
+
 .login-container {
-  min-height: 80vh; /* Center vertically */
-  background: #f8f9fa;
+  min-height: 100vh;
 }
 
 .login-card {
   width: 100%;
-  max-width: 400px;
-  background-color: #ffffff;
+  max-width: 420px;
+  background-color: #24243e;
   border-radius: 12px;
-  border: 1px solid #dee2e6;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  padding: 30px;
+  color: white;
+  box-shadow: 0 0 20px rgba(255, 39, 112, 0.4);
 }
 
-.login-card h3 {
+.login-title {
   font-weight: 600;
-  color: #198754;
+  color: #ff2770;
 }
 
-.login-card .form-control {
-  border-radius: 8px;
-  padding: 10px 12px;
-  border: 1px solid #ced4da;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-/* Green border on focus */
-.login-card .form-control:focus {
-  border-color: #198754;
-  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
-  outline: none;
-}
-
-.login-card .btn-success {
-  border-radius: 8px;
+/* Labels */
+.form-label {
   font-weight: 500;
-  padding: 10px 0;
-  transition: transform 0.2s;
+  margin-bottom: 5px;
 }
 
-.login-card .btn-success:hover {
-  transform: translateY(-2px);
+/* Input Styling */
+.custom-input {
+  background: transparent;
+  border: 1px solid #555;
+  border-radius: 8px;
+  color: #fff;
+  padding: 10px;
+  transition: 0.3s;
 }
 
+/* Placeholder */
+.custom-input::placeholder {
+  color: #bbb;
+  font-size: 14px;
+}
+
+/* Focus Effect */
+.custom-input:focus {
+  border-color: #ff2770;
+  box-shadow: 0 0 8px #ff2770;
+  background: transparent;
+  color: #fff;
+}
+
+/* Button */
+.login-btn {
+  background-color: green;
+  border: none;
+  border-radius: 30px;
+  padding: 10px;
+  font-weight: 600;
+  color: white;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #800000;
+  box-shadow: 0 0 15px blue;
+}
+
+/* Links */
+.forgot-link,
+.register-link {
+  color: #ff2770;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgot-link:hover,
+.register-link:hover {
+  text-decoration: underline;
+}
+
+/* Checkbox */
 .form-check-input:checked {
-  background-color: #198754;
-  border-color: #198754;
+  background-color: #ff2770;
+  border-color: #ff2770;
 }
