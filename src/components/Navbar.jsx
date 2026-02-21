@@ -82,69 +82,74 @@ function Navbar() {
 
               <div className="dropdown-menu dropdown-menu-end mega-menu shadow-sm p-2">
                 <h6 className="dropdown-header">Platform Services</h6>
-                
 
-                <li className="dropdown ">
+                {/* Travel submenu */}
+                <li className="dropdown">
                   <a
                     className="dropdown-item dropdown-toggle d-flex gap-2"
                     data-bs-toggle="dropdown"
-                    >Travel</a>
+                  >
+                    Travel
+                  </a>
                   <ul className="dropdown-menu">
                     <li>
                       <a className="dropdown-item text-danger" href="https://easycoachkenya.com/" target="_self" rel="noreferrer">
-                        Easy Coach <Bus  size={16} />
+                        Easy Coach <Bus size={16} />
                       </a>
+                    </li>
+                    <li>
                       <a className="dropdown-item text-primary" href="https://theguardian.co.ke/" target="_blank" rel="noreferrer">
                         Guardian Angel <Bus size={16} />
                       </a>
+                    </li>
+                    <li>
                       <a className="dropdown-item text-warning" href="https://www.enacoach.co.ke/" target="_blank" rel="noreferrer">
                         Ena Coach <Bus size={16} />
                       </a>
                     </li>
-                  </ul>  
-
-
+                  </ul>
                 </li>
-                <Link className="dropdown-item d-flex gap-2" to="https://www.munchify.co.ke/" target="_blank">
-                  <UtensilsCrossed size={16} /> Food Ordering
-                </Link>
-                <Link className="dropdown-item d-flex gap-2" to="/payments">
-                  <CreditCard size={16} /> Payments
-                </Link>
+
+                <li>
+                  <Link className="dropdown-item d-flex gap-2" to="https://www.munchify.co.ke/" target="_blank">
+                    <UtensilsCrossed size={16} /> Food Ordering
+                  </Link>
+                </li>
+
+                <li>
+                  <Link className="dropdown-item d-flex gap-2" to="/payments">
+                    <CreditCard size={16} /> Payments
+                  </Link>
+                </li>
 
                 <hr className="dropdown-divider" />
 
                 <h6 className="dropdown-header">Student Services</h6>
-                <a
-                  className="dropdown-item"
-                  href="https://student.maseno.ac.ke"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Maseno Student Portal
-                </a>
-                <a
-                  className="dropdown-item"
-                  href="https://elearning.maseno.ac.ke"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  E-Learning
-                </a>
-                <a
-                  className="dropdown-item"
-                  href="https://www.helb.co.ke"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  HELB
-                </a>
-                <Link className="dropdown-item d-flex gap-2" to="/community">
-                  <Users size={16} /> Student Community
-                </Link>
-                <Link className="dropdown-item d-flex gap-2" to="/support">
-                  <HelpCircle size={16} /> Help & Support
-                </Link>
+                <li>
+                  <a className="dropdown-item" href="https://student.maseno.ac.ke" target="_blank" rel="noreferrer">
+                    Maseno Student Portal
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="https://elearning.maseno.ac.ke" target="_blank" rel="noreferrer">
+                    E-Learning
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="https://www.helb.co.ke" target="_blank" rel="noreferrer">
+                    HELB
+                  </a>
+                </li>
+                <li>
+                  <Link className="dropdown-item d-flex gap-2" to="/community">
+                    <Users size={16} /> Student Community
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item d-flex gap-2" to="/support">
+                    <HelpCircle size={16} /> Help & Support
+                  </Link>
+                </li>
               </div>
             </li>
 

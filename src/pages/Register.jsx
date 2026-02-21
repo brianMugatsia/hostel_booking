@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import axios from "axios";
 import "./Register.css";
 
 function Register() {
@@ -10,75 +11,89 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  // Create default admin once
-  useEffect(() => {
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-
-    const adminExists = users.some((u) => u.role === "ADMIN");
-
-    if (!adminExists) {
-      const defaultAdmin = {
-        role: "ADMIN",
-        adminId: "ADMIN001",
-        name: "System",
-        otherNames: "Administrator",
-        email: "admin@hostel.com",
-        phone: "0712345678",
-        password: "admin123",
-      };
-
-      users.push(defaultAdmin);
-      localStorage.setItem("users", JSON.stringify(users));
-    }
-  }, []);
-
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
+    setFieldErrors({});
 
     const form = e.target;
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
 
-    const password = form.password.value;
-    const confirmPassword = form.confirmPassword.value;
-    const phone = form.phone.value;
+    const password = form.password.value.trim();
+    const confirmPassword = form.confirmPassword.value.trim();
+    const phone = form.phone.value.trim();
+    const name = form.name.value.trim();
+    const otherNames = form.otherNames.value.trim();
+    const email = form.email.value.trim();
+    const hostelName = role === "OWNER" ? form.hostelName.value.trim() : null;
+    const hostelNumber = role === "OWNER" ? form.hostelNumber.value.trim() : null;
 
-    // Password validation
+    // Frontend validations
+    if (!name || !otherNames || !email || !phone || !password || !confirmPassword) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError("Passwords do not match!");
       return;
     }
 
-    // Kenya phone validation
     const kenyaPhoneRegex = /^07\d{8}$/;
     if (!kenyaPhoneRegex.test(phone)) {
       setError("Phone must start with 07 and contain 10 digits.");
       return;
     }
 
-    // Email check
-    if (users.find((u) => u.email === form.email.value)) {
-      setError("Email already registered!");
+    if (role === "OWNER" && (!hostelName || !hostelNumber)) {
+      setError("Please provide hostel name and number for owners.");
       return;
     }
 
-    const newUser = {
+    const userData = {
       role,
-      name: form.name.value,
-      otherNames: form.otherNames.value,
-      email: form.email.value,
+      name,
+      otherNames,
+      email,
       phone,
-      hostelName: role === "OWNER" ? form.hostelName.value : "",
-      hostelNumber: role === "OWNER" ? form.hostelNumber.value : "",
+      hostelName: hostelName || null,
+      hostelNumber: hostelNumber || null,
       password,
     };
 
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
+    try {
+      setLoading(true);
 
-    alert("Registered successfully!");
-    navigate("/login");
+      const response = await axios.post(
+        "http://localhost:9090/api/auth/register",
+        userData
+      );
+
+      alert(response.data.message || "Registered successfully!");
+      navigate("/login");
+
+    } catch (err) {
+      // Handle Spring validation errors
+      if (err.response?.data) {
+        const data = err.response.data;
+
+        // Field-specific errors from backend
+        if (typeof data === "object" && !Array.isArray(data)) {
+          setFieldErrors(data);
+        }
+
+        // General error message
+        if (data.message) {
+          setError(data.message);
+        }
+      } else {
+        setError("Server not responding");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -89,14 +104,9 @@ function Register() {
         {error && <div className="error-box">{error}</div>}
 
         <form onSubmit={handleRegister}>
-          {/* ROLE (Admin Removed) */}
           <div className="form-group">
             <label>Select Role</label>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              required
-            >
+            <select value={role} onChange={(e) => setRole(e.target.value)} required>
               <option value="STUDENT">Student</option>
               <option value="OWNER">Hostel Owner</option>
             </select>
@@ -105,70 +115,66 @@ function Register() {
           <div className="form-group">
             <label>First Name</label>
             <input type="text" name="name" required />
+            {fieldErrors.name && <small className="error-text">{fieldErrors.name}</small>}
           </div>
 
           <div className="form-group">
             <label>Other Names</label>
             <input type="text" name="otherNames" required />
+            {fieldErrors.otherNames && <small className="error-text">{fieldErrors.otherNames}</small>}
           </div>
 
           <div className="form-group">
             <label>Email</label>
             <input type="email" name="email" required />
+            {fieldErrors.email && <small className="error-text">{fieldErrors.email}</small>}
           </div>
 
           <div className="form-group">
             <label>Phone</label>
             <input type="tel" name="phone" placeholder="07XXXXXXXX" required />
+            {fieldErrors.phone && <small className="error-text">{fieldErrors.phone}</small>}
           </div>
 
-          {/* OWNER FIELDS */}
           {role === "OWNER" && (
             <>
               <div className="form-group">
                 <label>Hostel Name</label>
                 <input type="text" name="hostelName" required />
+                {fieldErrors.hostelName && <small className="error-text">{fieldErrors.hostelName}</small>}
               </div>
 
               <div className="form-group">
                 <label>Hostel Number</label>
                 <input type="text" name="hostelNumber" required />
+                {fieldErrors.hostelNumber && <small className="error-text">{fieldErrors.hostelNumber}</small>}
               </div>
             </>
           )}
 
-          {/* PASSWORD */}
           <div className="form-group">
             <label>Password</label>
             <div className="password-wrapper">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                required
-              />
+              <input type={showPassword ? "text" : "password"} name="password" required />
               <span onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
+              {fieldErrors.password && <small className="error-text">{fieldErrors.password}</small>}
             </div>
           </div>
 
-          {/* CONFIRM PASSWORD */}
           <div className="form-group">
             <label>Confirm Password</label>
             <div className="password-wrapper">
-              <input
-                type={showConfirm ? "text" : "password"}
-                name="confirmPassword"
-                required
-              />
+              <input type={showConfirm ? "text" : "password"} name="confirmPassword" required />
               <span onClick={() => setShowConfirm(!showConfirm)}>
                 {showConfirm ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
           </div>
 
-          <button type="submit" className="register-btn">
-            Register
+          <button type="submit" className="register-btn" disabled={loading}>
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
       </div>

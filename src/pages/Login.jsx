@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import "./Login.css";
 
 function Login() {
@@ -10,128 +11,109 @@ function Login() {
   });
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
     });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    try {
+      setLoading(true);
 
-    const user = users.find(
-      (u) =>
-        u.email === formData.email &&
-        u.password === formData.password
-    );
+      const response = await axios.post(
+        "http://localhost:9090/api/auth/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
 
-    if (!user) {
-      setError("Invalid email or password");
-      return;
-    }
+      const { token, role, name, email } = response.data;
 
-    localStorage.setItem("currentUser", JSON.stringify(user));
-    localStorage.setItem("isLoggedIn", "true");
+      // Save current user info in localStorage
+      const currentUser = { name, role, email };
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      localStorage.setItem("isLoggedIn", "true");
 
-    if (formData.rememberMe) {
-      localStorage.setItem("rememberMe", "true");
-    } else {
-      localStorage.removeItem("rememberMe");
-    }
+      // Save JWT token (localStorage if rememberMe, else sessionStorage)
+      if (formData.rememberMe) localStorage.setItem("token", token);
+      else sessionStorage.setItem("token", token);
 
-    if (user.role === "OWNER") {
-      navigate("/dashboard");
-    } else if (user.role === "ADMIN") {
-      navigate("/admin");
-    } else {
-      navigate("/hostels");
+      // Redirect by role
+      if (role === "OWNER") navigate("/dashboard");
+      else if (role === "ADMIN") navigate("/admin");
+      else navigate("/hostels");
+    } catch (err) {
+      if (err.response) setError(err.response.data.message || "Invalid credentials");
+      else setError("Server not responding");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container d-flex justify-content-center align-items-center">
       <div className="login-card p-4 shadow-lg">
+        <h3 className="login-title text-center mb-4">Welcome Back</h3>
 
-        <h3 className="login-title text-center mb-4">
-          Welcome Back
-        </h3>
-
-        {error && (
-          <div className="alert alert-danger text-center p-2">
-            {error}
-          </div>
-        )}
+        {error && <div className="alert alert-danger text-center p-2">{error}</div>}
 
         <form onSubmit={handleLogin}>
-
-          {/* Email */}
           <div className="form-group mb-3">
-            <label className="form-label">Email Address</label>
+            <label>Email Address</label>
             <input
               type="email"
               name="email"
-              className="form-control custom-input"
-              placeholder="Enter your email"
+              className="form-control"
               value={formData.email}
               onChange={handleChange}
               required
             />
           </div>
 
-          {/* Password */}
           <div className="form-group mb-3">
-            <label className="form-label">Password</label>
+            <label>Password</label>
             <input
               type="password"
               name="password"
-              className="form-control custom-input"
-              placeholder="Enter your password"
+              className="form-control"
               value={formData.password}
               onChange={handleChange}
               required
             />
           </div>
 
-          {/* Remember + Forgot */}
           <div className="form-check mb-3 d-flex justify-content-between align-items-center">
             <div>
               <input
                 type="checkbox"
                 name="rememberMe"
-                className="form-check-input"
                 checked={formData.rememberMe}
                 onChange={handleChange}
               />
-              <label className="form-check-label ms-2">
-                Remember Me
-              </label>
+              <label className="ms-2">Remember Me</label>
             </div>
 
-            <Link to="/forgot-password" className="forgot-link">
-              Forgot Password?
-            </Link>
+            <Link to="/forgot-password">Forgot Password?</Link>
           </div>
 
-          <button type="submit" className="btn login-btn btn-secondary w-100">
-            Login
+          <button type="submit" className="btn btn-secondary w-100" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <p className="text-center mt-3">
-          Don’t have an account?{" "}
-          <Link to="/register" className="register-link">
-            Register
-          </Link>
+          Don’t have an account? <Link to="/register">Register</Link>
         </p>
-
       </div>
     </div>
   );
