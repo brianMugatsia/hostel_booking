@@ -24,8 +24,10 @@ function Footer() {
               <li><Link to="/" className="footer-link">Home</Link></li>
               <li><Link to="/hostels" className="footer-link">Hostels</Link></li>
               <li><Link to="/services" className="footer-link">Services</Link></li>
+              <li><Link to="/about" className="footer-link">About Us</Link></li>
               <li><Link to="/login" className="footer-link">Login</Link></li>
               <li><Link to="/register" className="footer-link">Register</Link></li>
+
             </ul>
           </div>
 
@@ -82,7 +84,7 @@ function Footer() {
         <hr className="border-light" />
 
         <div className="text-center small">
-          &copy; {new Date().getFullYear()} Maseno Hostel Booking. All rights reserved.
+          &copy; {new Date().getFullYear()} Maseno Hostel Booking. All rights reserved.Powered By The BRAHSCO TECH SOLNS.
         </div>
       </div>
     </footer>

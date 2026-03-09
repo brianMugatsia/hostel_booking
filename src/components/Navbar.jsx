@@ -23,7 +23,7 @@ function Navbar() {
     <nav className="navbar navbar-expand-lg bg-danger navbar-dark fixed-top shadow-sm">
       <div className="container">
         {/* Brand */}
-        <Link className="navbar-brand fw-semibold" to="/">
+        <Link className="navbar-brand fw-bold" to="/">
           Maseno Hostel Booking
         </Link>
 
@@ -31,7 +31,7 @@ function Navbar() {
         <button
           className="navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
+          data-bs-toggle="collapse" 
           data-bs-target="#mainNavbar"
         >
           <span className="navbar-toggler-icon"></span>
@@ -70,6 +70,11 @@ function Navbar() {
                 </li>
               </>
             )}
+            <li className="nav-item">
+                  <Link className="nav-link text-white" to="/about">
+                    About Us
+                  </Link>
+                </li>
 
             {/* SINGLE-COLUMN DROPDOWN */}
             <li className="nav-item dropdown dropdown-hover">
@@ -156,6 +161,7 @@ function Navbar() {
             {/* AUTH */}
             {!user ? (
               <>
+                
                 <li className="nav-item">
                   <Link className="nav-link text-white" to="/login">
                     Login

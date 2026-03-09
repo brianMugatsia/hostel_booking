@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Payment from "./pages/Payment";
 import Confirmation from "./pages/Confirmation";
 import Dashboard from "./pages/Dashboard";
+import About from "./pages/About";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -26,10 +27,12 @@ function App() {
         <Route path="/hostels" element={<Hostels />} />
         <Route path="/hostels/:id" element={<HostelDetails />} />
         <Route path="/booking/:id" element={<Booking />} />
+        <Route path="/about" element={<About/>}/>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/confirmation" element={<Confirmation />} />
+        
 
         {/*  OWNER only routes */}
         <Route
