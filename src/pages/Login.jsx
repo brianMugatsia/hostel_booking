@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha"; //  Add this
 import "./Login.css";
 
 function Login() {
@@ -12,6 +13,7 @@ function Login() {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState(null); //  Add this
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -26,6 +28,12 @@ function Login() {
     e.preventDefault();
     setError("");
 
+    //  CAPTCHA validation
+    if (!captchaValue) {
+      setError("Please verify you are not a robot.");
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -34,6 +42,7 @@ function Login() {
         {
           email: formData.email,
           password: formData.password,
+          captchaToken: captchaValue, // send to backend for verification
         }
       );
 
@@ -104,6 +113,14 @@ function Login() {
             </div>
 
             <Link to="/forgot-password">Forgot Password?</Link>
+          </div>
+
+          {/* CAPTCHA added here */}
+          <div className="form-group mb-3">
+            <ReCAPTCHA
+              sitekey="6Lcn2JcsAAAAABq88Du9I_LWtqekQkOr6Q_e4lJl"
+              onChange={(value) => setCaptchaValue(value)}
+            />
           </div>
 
           <button type="submit" className="btn btn-secondary w-100" disabled={loading}>

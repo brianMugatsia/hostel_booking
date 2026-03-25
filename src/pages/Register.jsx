@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha"; // ✅ ADD THIS
 import "./Register.css";
 
 function Register() {
@@ -14,10 +15,18 @@ function Register() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const [captchaValue, setCaptchaValue] = useState(null); // ✅ ADD THIS
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
     setFieldErrors({});
+
+    // ✅ CAPTCHA VALIDATION
+    if (!captchaValue) {
+      setError("Please verify you are not a robot.");
+      return;
+    }
 
     const form = e.target;
 
@@ -61,6 +70,7 @@ function Register() {
       hostelName: hostelName || null,
       hostelNumber: hostelNumber || null,
       password,
+      captchaToken: captchaValue, // ✅ SEND TO BACKEND (later use)
     };
 
     try {
@@ -75,16 +85,13 @@ function Register() {
       navigate("/login");
 
     } catch (err) {
-      // Handle Spring validation errors
       if (err.response?.data) {
         const data = err.response.data;
 
-        // Field-specific errors from backend
         if (typeof data === "object" && !Array.isArray(data)) {
           setFieldErrors(data);
         }
 
-        // General error message
         if (data.message) {
           setError(data.message);
         }
@@ -171,6 +178,14 @@ function Register() {
                 {showConfirm ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
+          </div>
+
+          {/* ✅ CAPTCHA ADDED HERE */}
+          <div className="form-group">
+            <ReCAPTCHA
+              sitekey="6Lcn2JcsAAAAABq88Du9I_LWtqekQkOr6Q_e4lJl"
+              onChange={(value) => setCaptchaValue(value)}
+            />
           </div>
 
           <button type="submit" className="register-btn" disabled={loading}>
