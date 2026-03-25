@@ -86,3 +86,16 @@ body {
   background-color: #ff2770;
   border-color: #ff2770;
 }
+.login-container {
+  background: linear-gradient(rgba(0, 100, 0, 0.3), rgba(0, 100, 0, 0.3)),
+    url("../assets/masenopic.jpeg") center/cover no-repeat;
+    animation: fadeIn 1s ease-in-out;
+     min-height: 100vh; /* Ensures full screen height */
+  display: flex;
+  margin-right: 5%;
+  margin-left: 5%;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 15px; /* Adds breathing room */
+  box-sizing: border-box;
+}

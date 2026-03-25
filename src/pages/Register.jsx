@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
-import ReCAPTCHA from "react-google-recaptcha"; // ✅ ADD THIS
+import ReCAPTCHA from "react-google-recaptcha"; // ADD THIS
 import "./Register.css";
 
 function Register() {
@@ -15,14 +15,14 @@ function Register() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const [captchaValue, setCaptchaValue] = useState(null); // ✅ ADD THIS
+  const [captchaValue, setCaptchaValue] = useState(null); //  ADD THIS
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
     setFieldErrors({});
 
-    // ✅ CAPTCHA VALIDATION
+    // CAPTCHA VALIDATION
     if (!captchaValue) {
       setError("Please verify you are not a robot.");
       return;
@@ -70,7 +70,7 @@ function Register() {
       hostelName: hostelName || null,
       hostelNumber: hostelNumber || null,
       password,
-      captchaToken: captchaValue, // ✅ SEND TO BACKEND (later use)
+      captchaToken: captchaValue, // SEND TO BACKEND (later use)
     };
 
     try {

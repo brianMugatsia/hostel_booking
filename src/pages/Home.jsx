@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import hostel1 from "../assets/hostel1.png";
+import hostel1 from "../assets/masenopic.jpeg";
 import hostel2 from "../assets/hostel2.png";
 import hostel3 from "../assets/hostel3.png";
-import duka1 from "../assets/duka1.jpeg";
+import duka1 from "../assets/keja1.jpeg";
 import "./Home.css";
 
 function Home() {
