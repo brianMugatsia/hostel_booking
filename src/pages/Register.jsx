@@ -63,7 +63,7 @@ function Register() {
       errors.phone = "Use format 07XXXXXXXX";
 
     if (!data.dob) {
-      errors.dob = "Date of birth is required";
+      errors.dob = "Date of birth is require";
     } else if (age < 18) {
       errors.dob = "You must be at least 18 years old";
     }
