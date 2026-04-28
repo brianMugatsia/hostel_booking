@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import ReCAPTCHA from "react-google-recaptcha"; //  Add this
+import ReCAPTCHA from "react-google-recaptcha";
 import "./Login.css";
 
 function Login() {
@@ -13,7 +13,7 @@ function Login() {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [captchaValue, setCaptchaValue] = useState(null); //  Add this
+  const [captchaValue, setCaptchaValue] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
